@@ -1,56 +1,138 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Blank</ion-title>
-      </ion-toolbar>
-    </ion-header>
 
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
+    <ion-content>
 
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+      <div class="container">
+
+        <h1>💰 Crypto App</h1>
+
+        <ion-button expand="block" @click="ambilData">
+          REFRESH
+        </ion-button>
+
+        <div
+          class="card"
+          v-for="item in crypto"
+          :key="item.id"
+        >
+
+          <div>
+            <small>Rank</small>
+            <h2>{{ item.rank }}</h2>
+          </div>
+
+          <div>
+            <small>{{ item.name }}</small>
+            <h2>{{ item.symbol }}</h2>
+          </div>
+
+          <div>
+            <small>USD</small>
+            <h2>${{ item.price_usd }}</h2>
+          </div>
+
+        </div>
+
       </div>
+
     </ion-content>
+
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+<script lang="ts">
+import {
+  IonPage,
+  IonContent,
+  IonButton
+} from '@ionic/vue'
+
+import axios from 'axios'
+
+export default {
+
+  components:{
+    IonPage,
+    IonContent,
+    IonButton
+  },
+
+  data() {
+    return {
+      crypto: [] as any[]
+    }
+  },
+
+  mounted() {
+    this.ambilData()
+  },
+
+  methods: {
+
+    async ambilData() {
+
+      const response = await axios.get(
+        'https://api.coinlore.net/api/tickers/'
+      )
+
+      this.crypto = response.data.data
+
+    }
+
+  }
+
+}
 </script>
 
 <style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+
+ion-content{
+  --background:
+  linear-gradient(
+    to bottom,
+    #0f172a,
+    #1e293b
+  );
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
+h1{
+  text-align:center;
+  color:white;
+  margin-bottom:20px;
 }
 
-#container a {
-  text-decoration: none;
+.card{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  background:#efe3b2;
+
+  margin-top:12px;
+
+  padding:15px;
+
+  border-radius:10px;
+
 }
+
+small{
+  color:#555;
+}
+
+h2{
+  margin:0;
+  color:black;
+}
+
 </style>
