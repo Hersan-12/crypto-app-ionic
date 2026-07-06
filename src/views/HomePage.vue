@@ -52,7 +52,7 @@ import axios from 'axios'
 
 export default {
 
-  components:{
+  components: {
     IonPage,
     IonContent,
     IonButton
@@ -72,16 +72,20 @@ export default {
 
     async ambilData() {
 
-  try {
+      try {
 
-    const response = await axios.get<any>(
-      'https://api.coinlore.net/api/tickers/'
-    )
+        const response = await axios.get<any>(
+          'https://api.coinlore.net/api/tickers/'
+        )
 
-    this.crypto = response.data.data
+        this.crypto = response.data.data
 
-  } catch (error) {
-    console.log(error)
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
+
   }
 
 }
