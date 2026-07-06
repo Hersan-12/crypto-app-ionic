@@ -72,14 +72,16 @@ export default {
 
     async ambilData() {
 
-      const response = await axios.get(
-        'https://api.coinlore.net/api/tickers/'
-      )
+  try {
 
-      this.crypto = response.data.data
+    const response = await axios.get<any>(
+      'https://api.coinlore.net/api/tickers/'
+    )
 
-    }
+    this.crypto = response.data.data
 
+  } catch (error) {
+    console.log(error)
   }
 
 }
